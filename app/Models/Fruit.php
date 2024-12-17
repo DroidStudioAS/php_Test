@@ -26,7 +26,7 @@ class Fruit extends Model
         return $this->volumne;
     }
 
-    public function to_string(): string
+    public function toString(): string
     {
         return "Fruit is {$this->color} and of {$this->volumne}l volume";
     }

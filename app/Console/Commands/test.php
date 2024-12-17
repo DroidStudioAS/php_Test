@@ -28,6 +28,6 @@ class test extends Command
     {
        $testFruit = new Fruit('red', 0.2);
 
-       $this->info($testFruit->to_string());
+       $this->info($testFruit->toString());
     }
 }
