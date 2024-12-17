@@ -2,31 +2,58 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Exceptions\JuicerException;
+use App\Validators\JuicerValidator;
 
-class FruitContainer extends Model
+class FruitContainer
 {
-    private float $volumne;
-    private int $fruitsInContainer;
+    private float $capacity;
+    private float $currentVolume = 0;
+    private int $fruitCount = 0;
 
-    public function __construct(float $volumne)
+    public function __construct(float $capacity)
     {
-        $this->volumne = $volumne;
-        $this->fruitsInContainer = 0;
-    }
-    public function addFruitToContainer (): void
-    {
-        $this->fruitsInContainer++;
+        JuicerValidator::validateCapacity($capacity);
+        $this->capacity = $capacity;
     }
 
-    public function getFruitsInContainer(): int
+    public function addFruit(Fruit $fruit): void
     {
-        return $this->fruitsInContainer;
+        $newVolume = $this->currentVolume + $fruit->getVolume();
+        JuicerValidator::validateContainerSpace($newVolume, $this->capacity);
+
+        $this->currentVolume = $newVolume;
+        $this->fruitCount++;
     }
 
-    public function getVolume(): float
+    public function getFruitCount(): int
     {
-        return $this->volumne;
+        return $this->fruitCount;
     }
 
+    public function getCapacity(): float
+    {
+        return $this->capacity;
+    }
+
+    public function getRemainingCapacity(): float
+    {
+        return $this->capacity - $this->currentVolume;
+    }
+
+    public function getCurrentVolume(): float
+    {
+        return $this->currentVolume;
+    }
+
+    public function clear(): void
+    {
+        $this->currentVolume = 0;
+        $this->fruitCount = 0;
+    }
+
+    public function toString(): string
+    {
+        return "Container capacity: {$this->capacity}L, fruits: {$this->fruitCount}, remaining capacity: {$this->getRemainingCapacity()}L";
+    }
 }
