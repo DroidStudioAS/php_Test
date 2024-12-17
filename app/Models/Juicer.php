@@ -15,6 +15,7 @@ class Juicer
     public function addFruit(Fruit $fruit): void
     {
         $this->fruitContainer->addFruit($fruit);
+        $this->strainer->strainFruit($fruit);
     }
 
     public function getFruitContainer(): FruitContainer
@@ -30,5 +31,15 @@ class Juicer
     public function toString(): string
     {
         return "Juicer has {$this->fruitContainer->toString()} and {$this->strainer->toString()}";
+    }
+
+    public function squeeze(): float
+    {
+        $juiceAmount = 0;
+        if ($this->fruitContainer->getFruitCount() > 0) {
+            $juiceAmount = $this->strainer->strainFruit($fruit);
+            $this->fruitContainer->clear();
+        }
+        return $juiceAmount;
     }
 }
