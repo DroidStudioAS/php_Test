@@ -4,17 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\FruitInterface;
+use App\Exceptions\FruitException;
+use App\Validators\FruitValidator;
 
 class Fruit implements FruitInterface
 {
-
     private string $color;
-    private float $volumne; 
+    private float $volume;
 
-    public function __construct(string $color, string $volumne)
+    public function __construct(string $color, float $volume)
     {
-        $this->color = $color;
-        $this->volumne = $volumne;
+        try {
+            FruitValidator::validate($color, $volume);
+            
+            $this->color = $color;
+            $this->volume = $volume;
+        } catch (FruitException $e) {
+            throw $e; // Re-throw the exception after any necessary logging or handling
+        }
     }
 
     public function getColor(): string
@@ -22,13 +29,13 @@ class Fruit implements FruitInterface
         return $this->color;
     }
 
-    public function getVolumne(): float
+    public function getVolume(): float
     {
-        return $this->volumne;
+        return $this->volume;
     }
 
     public function toString(): string
     {
-        return "Fruit is {$this->color} and of {$this->volumne}l volume";
+        return "Fruit is {$this->color} and of {$this->volume}l volume";
     }
 }
