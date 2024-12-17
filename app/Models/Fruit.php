@@ -38,4 +38,9 @@ class Fruit implements FruitInterface
     {
         return "Fruit is {$this->color} and of {$this->volume}l volume";
     }
+
+    public function getJuiceAmount(): float
+    {
+        return $this->volume * 0.5; // 50% of fruit volume
+    }
 }
