@@ -11,7 +11,7 @@ use App\Models\JuiceContainer;
 
 class simulate extends Command
 {
-    private const TOTAL_ACTIONS = 100;
+    private const TOTAL_ACTIONS = 20;
     private const JUICER_CAPACITY = 20;
     private const SQUEEZE_INTERVAL = 9;
 
@@ -33,59 +33,23 @@ class simulate extends Command
     public function handle()
     {
         $fruitFactory = new FruitFactory();
-
+        $i = 0;
+        while ($i < self::TOTAL_ACTIONS){
         $this->info("Starting juicer simulation...\n");
+        $type = $i % 9 == 0 && $i !== 0 ? "apple" : null;
+        $this->info($type);
 
-        for ($i = 0; $i < self::TOTAL_ACTIONS; $i++) {
-            $success = false;
-            while (!$success) {
-                try {
-                    $type = $i % 9 == 0 && $i !== 0 ? "apple" : null;
-                    $fruit = $fruitFactory->generateFruit($type);
-                    $this->juicer->addFruit($fruit);
-                    
-                    $strainer = $this->juicer->getStrainer();
-                    $container = $this->juicer->getFruitContainer();
+        $fruit = $fruitFactory->generateFruit($type);
+        //add and strain fruit
+        $this->juicer->addFruit($fruit);
 
-                    $this->info(sprintf(
-                        "Action %d: Added %s fruit (%.2fL)\n" .
-                        "Container Status: %.2fL/%.2fL\n" .
-                        "Total Juice Produced: %.1fL\n",
-                        $i + 1,
-                        $fruit->getColor(),
-                        $fruit->getVolume(),
-                        $container->getCurrentVolume(),
-                        $container->getCapacity(),
-                        $strainer->getCapacity(),
-                        $strainer->getTotalJuice()
-                    ));
+        $this->info("Total juice in strainer: " . $this->juicer->getStrainer()->getTotalJuice());
+        $this->info("Total juice in fruit container: " . $this->juicer->getFruitContainer()->getCurrentVolume());
+        $this->info("Total fruit in fruit container: " . $this->juicer->getFruitContainer()->getFruitCount());
+        $i++;
+    }
 
-                    if ($i > 0 && $i % self::SQUEEZE_INTERVAL === 0) {
-                        $this->info("\n=== Squeezing fruits ===");
-                        $this->info($this->juicer->toString() . "\n");
-                    }
 
-                    $success = true; // Mark the iteration as successful
-                } catch (JuicerException | FruitException $e) {
-                    $this->info("We need to empty the juicer, because it is full");
-                    $this->info($strainer->getTotalJuice());
-                    $juicerContainer = new JuiceContainer($strainer->getTotalJuice());
-                    $this->juicerContainers[] = $juicerContainer;
-                    $strainer->clear();
-                    $this->juicer->getFruitContainer()->clear();
-                    // Retry the iteration
-                }
-            }
-        }
-
-        $this->info("\n=== Simulation Complete ===");
-        $this->info($this->juicer->toString());
-        $this->info(sprintf(
-            "Total Juice Containers Filled: %d\n" .
-            "Total Juice Produced: %.1fL",
-            count($this->juicerContainers),
-            $this->calculateTotalJuice()
-        ));
     }
     public function calculateTotalJuice():float{
         $totalJuice = 0;

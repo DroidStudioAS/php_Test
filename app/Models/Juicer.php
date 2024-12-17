@@ -13,16 +13,11 @@ class Juicer
     }
 
     public function addFruit(Fruit $fruit): void
-    {
-        try {
+    {    
             $this->fruitContainer->addFruit($fruit);
-        } catch (JuicerException $e) {
-            // Container is full, squeeze first then add
-            $this->squeeze();
-            $this->fruitContainer->addFruit($fruit);
-        }
-        $this->strainer->strainFruit($fruit);
+            $this->strainer->strainFruit($fruit);   
     }
+    
 
     public function getFruitContainer(): FruitContainer
     {
