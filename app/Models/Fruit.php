@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\FruitInterface;
-class Fruit extends Model
+
+class Fruit implements FruitInterface
 {
 
     private string $color;
