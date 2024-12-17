@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Juicer extends Model
+class Juicer
 {
     private FruitContainer $fruitContainer;
     private Strainer $strainer;
