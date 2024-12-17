@@ -6,6 +6,10 @@ use Illuminate\Console\Command;
 use App\Models\Fruit;
 use App\Models\Apple;
 use App\Exceptions\FruitException;
+use App\Models\FruitContainer;
+use App\Models\Strainer;
+use App\Models\Juicer;
+use App\Exceptions\JuicerException;
 
 class test extends Command
 {
@@ -30,6 +34,8 @@ class test extends Command
     {
         $this->testBadApple();
         $this->testValidFruits();
+        $this->testGoodJuicer();
+        $this->testBadJuicer();
     }
 
     /**
@@ -62,6 +68,28 @@ class test extends Command
             $this->error('Failed to create valid fruits: ' . $e->getMessage());
             // Log the error if needed
             // \Log::error('Failed to create valid fruits: ' . $e->getMessage());
+        }
+    }
+    private function testGoodJuicer(): void
+    {
+        try {
+            $fruitContainer = new FruitContainer(10);
+            $strainer = new Strainer(10);
+            $juicer = new Juicer($fruitContainer, $strainer);
+            $this->info($juicer->toString());
+        } catch (JuicerException $e) {
+            $this->error('Failed to create good juicer: ' . $e->getMessage());
+        }
+    }
+    private function testBadJuicer(): void
+    {
+        try {
+            $fruitContainer = new FruitContainer(-10);
+            $strainer = new Strainer(-10);
+            $juicer = new Juicer($fruitContainer, $strainer);
+            $this->info($juicer->toString());
+        } catch (JuicerException $e) {
+            $this->error('Failed to create good juicer: ' . $e->getMessage());
         }
     }
 }
