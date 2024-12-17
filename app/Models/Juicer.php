@@ -14,7 +14,13 @@ class Juicer
 
     public function addFruit(Fruit $fruit): void
     {
-        $this->fruitContainer->addFruit($fruit);
+        try {
+            $this->fruitContainer->addFruit($fruit);
+        } catch (JuicerException $e) {
+            // Container is full, squeeze first then add
+            $this->squeeze();
+            $this->fruitContainer->addFruit($fruit);
+        }
         $this->strainer->strainFruit($fruit);
     }
 
@@ -37,8 +43,8 @@ class Juicer
     {
         $juiceAmount = 0;
         if ($this->fruitContainer->getFruitCount() > 0) {
-            $juiceAmount = $this->strainer->strainFruit($fruit);
             $this->fruitContainer->clear();
+            $juiceAmount = $this->strainer->getTotalJuice();
         }
         return $juiceAmount;
     }

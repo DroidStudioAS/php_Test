@@ -36,6 +36,10 @@ class FruitContainer extends AbstractJuicerComponent implements ContainerInterfa
         $this->currentVolume = 0;
         $this->fruitCount = 0;
     }
+    public function getCurrentVolume(): float
+    {
+        return $this->currentVolume;
+    }
 
     public function toString(): string
     {
