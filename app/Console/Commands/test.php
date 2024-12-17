@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Models\Fruit;
 
 class test extends Command
 {
@@ -25,6 +26,8 @@ class test extends Command
      */
     public function handle()
     {
-        $this->info('Hello World');
+       $testFruit = new Fruit('red', 0.2);
+
+       $this->info($testFruit->to_string());
     }
 }

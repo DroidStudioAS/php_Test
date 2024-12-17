@@ -8,7 +8,7 @@ class Fruit extends Model
 {
 
     private string $color;
-    private string $volumne; 
+    private float $volumne; 
 
     public function __construct(string $color, string $volumne)
     {
@@ -21,8 +21,13 @@ class Fruit extends Model
         return $this->color;
     }
 
-    public function getVolumne(): string
+    public function getVolumne(): float
     {
         return $this->volumne;
+    }
+
+    public function to_string(): string
+    {
+        return "Fruit is {$this->color} and of {$this->volumne}l volume";
     }
 }
