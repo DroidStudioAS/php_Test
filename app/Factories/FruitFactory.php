@@ -8,7 +8,7 @@ use App\Models\Apple;
 class FruitFactory{
 
     private const COLORS = ["red", "green", "yellow", "blue", "purple", "orange", "pink", "brown", "gray", "black", "white"];
-    private const MIN_MAX_VOLUME = [0.1, 0.5];
+    private const MIN_MAX_VOLUME = [1.0, 3.0];
     private const APPLE_MIN_MAX_VOLUME = [1.0, 5.0];
     private const ROTTEN_PROBABILITY = 0.2;
 

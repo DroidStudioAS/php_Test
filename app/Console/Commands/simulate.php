@@ -55,7 +55,7 @@ class simulate extends Command
         }
         $this->juicer->addFruit($fruit);
         
-
+        $this->info("Squeeze cycle: {$i}");
         $this->info("Total juice in strainer: " . $this->juicer->getStrainer()->getTotalJuice());
         $this->info("Capacity of fruit container: " . $this->juicer->getFruitContainer()->getCurrentVolume());
         $this->info("Total fruit in fruit container: " . $this->juicer->getFruitContainer()->getFruitCount());
