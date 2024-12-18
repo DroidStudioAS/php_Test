@@ -56,7 +56,7 @@ class FruitContainer implements ContainerInterface
 
     public function isFull(float $fruitVolume): bool
     {
-        if ($this->capacity - $fruitVolume < 0) {
+        if (($this->capacity - ($fruitVolume /2)) < 0) {
             return true;
         }
         return false;
