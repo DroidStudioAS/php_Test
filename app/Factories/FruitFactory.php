@@ -27,6 +27,9 @@ class FruitFactory{
     /** @var float Probability of an apple being rotten (0.0 to 1.0) */
     private const ROTTEN_PROBABILITY = 0.2;
 
+    /** @var float Minimum volume for fruits */
+    private float $minimumVolume = 1.0;
+
     /**
      * Generate a fruit instance based on type
      * 
@@ -50,7 +53,7 @@ class FruitFactory{
     {
         return new Fruit(
             self::COLORS[array_rand(self::COLORS)], 
-            self::MIN_MAX_VOLUME[array_rand(self::MIN_MAX_VOLUME)]
+            rand($this->minimumVolume * 10, self::MIN_MAX_VOLUME[1] * 10) / 10
         );
     }
 
@@ -63,7 +66,7 @@ class FruitFactory{
     {
         return new Apple(
             self::COLORS[array_rand(self::COLORS)],
-            rand(self::APPLE_MIN_MAX_VOLUME[0] * 10, self::APPLE_MIN_MAX_VOLUME[1] * 10) / 10,
+            rand($this->minimumVolume * 10, self::APPLE_MIN_MAX_VOLUME[1] * 10) / 10,
             $this->isAppleRotten()
         );
     }
@@ -78,5 +81,15 @@ class FruitFactory{
     private function isAppleRotten(): bool
     {
         return random_int(1, 100) <= (self::ROTTEN_PROBABILITY * 100);
+    }
+
+    /**
+     * Set the minimum volume for fruits
+     * 
+     * @param float $volume Minimum volume in liters
+     */
+    public function setMinimumVolume(float $volume): void
+    {
+        $this->minimumVolume = $volume;
     }
 }

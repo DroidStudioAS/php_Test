@@ -19,7 +19,7 @@ use Illuminate\Console\Command;
 class JuicerSimulation
 {
     /** @var int Number of cycles between apple generations */
-    private const SQUEEZE_INTERVAL = 9;
+    private int $squeezeInterval;
     
     /** @var array<JuiceContainer> Array of juice containers used in simulation */
     private array $juiceContainers = [];
@@ -48,12 +48,14 @@ class JuicerSimulation
      * @param Juicer       $juicer       The juicer to simulate
      * @param FruitFactory $fruitFactory Factory for generating fruits
      * @param Command      $output       Console command for output
+     * @param int          $squeezeInterval Number of cycles between apple generations
      */
-    public function __construct(Juicer $juicer, FruitFactory $fruitFactory, Command $output)
+    public function __construct(Juicer $juicer, FruitFactory $fruitFactory, Command $output, int $squeezeInterval = 9)
     {
         $this->juicer = $juicer;
         $this->fruitFactory = $fruitFactory;
         $this->output = $output;
+        $this->squeezeInterval = $squeezeInterval;
     }
 
     /**
@@ -64,7 +66,7 @@ class JuicerSimulation
      */
     public function processCycle(int $cycleNumber): void
     {
-        $type = ($cycleNumber % self::SQUEEZE_INTERVAL === 0) ? "apple" : null;
+        $type = ($cycleNumber % $this->squeezeInterval === 0) ? "apple" : null;
         $fruit = $this->fruitFactory->generateFruit($type);
 
         if ($type === 'apple') {
