@@ -149,7 +149,7 @@ class JuicerSimulation
     {
         $this->output->info("\nSqueeze cycle: {$cycleNumber}");
         $this->output->info("Total juice in strainer: " . $this->juicer->getStrainer()->getTotalJuice());
-        $this->output->info("Capacity of fruit container: " . $this->juicer->getFruitContainer()->getCurrentVolume());
+        $this->output->info("Capacity of fruit container: " . $this->juicer->getFruitContainer()->getCapacity());
         $this->output->info("Total fruit in fruit container: " . $this->juicer->getFruitContainer()->getFruitCount() . "\n");
     }
 
