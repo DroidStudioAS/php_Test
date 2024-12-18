@@ -18,8 +18,6 @@ class Strainer
 
     public function strainFruit(Fruit $fruit): float
     {
-        JuicerValidator::validateForJuicing($fruit);
-
         $juiceAmount = $fruit->getJuiceAmount();
         $this->totalJuice += $juiceAmount;
         

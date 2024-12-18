@@ -43,4 +43,13 @@ class Juicer
         }
         return $juiceAmount;
     }
+    public function clearJuicer(): void
+    {
+        $this->fruitContainer->clear();
+        $this->strainer->clear();
+    }
+    public function getTotalJuice(): float
+    {
+        return $this->strainer->getTotalJuice();
+    }
 }

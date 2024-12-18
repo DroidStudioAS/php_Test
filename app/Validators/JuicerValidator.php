@@ -35,16 +35,5 @@ class JuicerValidator
         }
     }
 
-    /**
-     * Validates fruit for juicing
-     *
-     * @param Fruit $fruit
-     * @throws JuicerException
-     */
-    public static function validateForJuicing(Fruit $fruit): void
-    {
-        if ($fruit instanceof Apple && $fruit->isRotten()) {
-            throw JuicerException::rottenFruit();
-        }
-    }
+
 } 

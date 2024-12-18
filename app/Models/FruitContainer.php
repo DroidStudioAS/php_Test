@@ -7,17 +7,19 @@ use App\Interfaces\ContainerInterface;
 use App\Exceptions\JuicerException;
 use App\Validators\JuicerValidator;
 
-class FruitContainer extends AbstractJuicerComponent implements ContainerInterface
+class FruitContainer implements ContainerInterface
 {
     private float $currentVolume = 0;
     private int $fruitCount = 0;
+    private float $capacity = 20.0;
+
 
     public function addFruit(Fruit $fruit): void
     {
-        $newVolume = $this->currentVolume + $fruit->getVolume() / 2;
+        $newVolume = $this->capacity - $fruit->getVolume() / 2;
         JuicerValidator::validateContainerSpace($newVolume, $this->capacity);
 
-        $this->currentVolume = $newVolume;
+        $this->capacity = $newVolume;
         $this->fruitCount++;
     }
 
@@ -35,14 +37,28 @@ class FruitContainer extends AbstractJuicerComponent implements ContainerInterfa
     {
         $this->currentVolume = 0;
         $this->fruitCount = 0;
+        $this->capacity = 20.0;
     }
     public function getCurrentVolume(): float
     {
-        return $this->currentVolume;
+        return $this->capacity;
+    }
+
+    public function getCapacity(): float
+    {
+        return $this->capacity;
     }
 
     public function toString(): string
     {
         return "Container capacity: {$this->capacity}L, fruits: {$this->fruitCount}, remaining capacity: {$this->getRemainingCapacity()}L";
+    }
+
+    public function isFull(float $fruitVolume): bool
+    {
+        if ($this->capacity - $fruitVolume < 0) {
+            return true;
+        }
+        return false;
     }
 }
