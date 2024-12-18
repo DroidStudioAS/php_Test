@@ -21,6 +21,9 @@ class simulate extends Command
     private array $juicerContainers = [];
     private Juicer $juicer;
     private int $totalFruits = 0;
+    private int $appleCount = 0;
+    private int $rottenAppleCount = 0;
+
     public function __construct()
     {
         parent::__construct();
@@ -39,6 +42,7 @@ class simulate extends Command
             $fruit = $fruitFactory->generateFruit($type);
 
             if ($type === 'apple') {
+                $this->appleCount++;
                 $isRotten = $fruit->isRotten();
                 $this->info("Generated apple with properties:");
                 $this->info("Color: " . $fruit->getColor());
@@ -47,6 +51,7 @@ class simulate extends Command
                 
                 if ($isRotten) {
                     $this->info("found rotten apple, throwing it away");
+                    $this->rottenAppleCount++;
                     $i++;
                     continue;
                 }
@@ -82,6 +87,7 @@ class simulate extends Command
             $this->info($container->toString());
         }
         $this->info("Total fruits squeezed: " . $this->totalFruits);
+        $this->info("Attempted to use {$this->appleCount} apples, {$this->rottenAppleCount} were rotten");
     }
     public function calculateTotalJuice():float{
         $totalJuice = 0;
