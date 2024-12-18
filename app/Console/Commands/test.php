@@ -36,6 +36,7 @@ class test extends Command
         $this->testValidFruits();
         $this->testGoodJuicer();
         $this->testBadJuicer();
+        $this->testRottenApples();
     }
 
     /**
@@ -91,5 +92,22 @@ class test extends Command
         } catch (JuicerException $e) {
             $this->error('Failed to create good juicer: ' . $e->getMessage());
         }
+    }
+    private function testRottenApples(): void
+    {
+        $factory = new FruitFactory();
+        $rottenCount = 0;
+        $totalApples = 100;
+
+        for ($i = 0; $i < $totalApples; $i++) {
+            $apple = $factory->generateFruit('apple');
+            if ($apple instanceof Apple && $apple->isRotten()) {
+                $rottenCount++;
+            }
+        }
+
+        $this->info("Generated {$totalApples} apples");
+        $this->info("Rotten apples: {$rottenCount}");
+        $this->info("Rotten percentage: " . ($rottenCount/$totalApples * 100) . "%");
     }
 }

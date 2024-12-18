@@ -39,6 +39,6 @@ class FruitFactory{
 
     private function isAppleRotten(): bool
     {
-        return mt_rand(1, 100) <= (self::ROTTEN_PROBABILITY * 100);
+        return random_int(1, 100) <= (self::ROTTEN_PROBABILITY * 100);
     }
 }

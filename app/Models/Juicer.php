@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Exceptions\JuicerException;
+use App\Models\Apple;
+
 class Juicer
 {
     private FruitContainer $fruitContainer;
@@ -14,8 +17,13 @@ class Juicer
 
     public function addFruit(Fruit $fruit): void
     {    
-            $this->fruitContainer->addFruit($fruit);
-            $this->strainer->strainFruit($fruit);   
+        // Check for rotten apple first
+        if ($fruit instanceof Apple && $fruit->isRotten()) {
+            throw JuicerException::rottenFruit();
+        }
+
+        $this->fruitContainer->addFruit($fruit);
+        $this->strainer->strainFruit($fruit);   
     }
     
 

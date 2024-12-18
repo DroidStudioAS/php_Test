@@ -16,4 +16,8 @@ class JuicerException extends Exception
         return new self("Invalid capacity: {$capacity}. Capacity must be greater than 0.");
     }
 
+    public static function rottenFruit(): self
+    {
+        return new self("Cannot juice rotten fruit.");
+    }
 } 
