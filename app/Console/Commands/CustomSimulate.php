@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use App\Factories\FruitFactory;
 use App\Models\Juicer;
 use App\Services\JuicerSimulation;
+use App\Models\FruitContainer;
+use App\Models\Strainer;
 
 class CustomSimulate extends Command
 {
@@ -32,8 +34,8 @@ class CustomSimulate extends Command
 
         // Initialize simulation components
         $juicer = new Juicer(
-            new \App\Models\FruitContainer(self::DEFAULT_JUICER_CAPACITY),
-            new \App\Models\Strainer(self::DEFAULT_JUICER_CAPACITY)
+            new FruitContainer(self::DEFAULT_JUICER_CAPACITY),
+            new Strainer(self::DEFAULT_JUICER_CAPACITY)
         );
 
         // Create fruit factory with custom minimum volume

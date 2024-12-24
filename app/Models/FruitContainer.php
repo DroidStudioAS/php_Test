@@ -17,6 +17,11 @@ class FruitContainer
     private int $fruitCount = 0;
     private float $capacity = 20.0;
 
+    public function __construct(int $capacity)
+    {
+        $this->capacity = $capacity;
+    }
+
     /**
      * Add a fruit to the container
      */
